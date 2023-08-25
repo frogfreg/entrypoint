@@ -1,12 +1,14 @@
 package utils
 
 import (
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/ini.v1"
 	"io"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
+	"gopkg.in/ini.v1"
 )
 
 // UpdateAutostart will look for all the services configuration in the supervisor conf.d directory and
@@ -26,7 +28,7 @@ func UpdateAutostart(autostart bool, confPath string) error {
 			continue
 		}
 		log.Infof("Checking file: %s", f.Name())
-		cfgFile := path.Join(confPath, f.Name())
+		cfgFile := filepath.Clean(path.Join(confPath, f.Name()))
 		content, err := os.ReadFile(cfgFile)
 		if err != nil {
 			return err

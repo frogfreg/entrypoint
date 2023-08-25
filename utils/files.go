@@ -1,14 +1,16 @@
 package utils
 
 import (
-	log "github.com/sirupsen/logrus"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func readLines(fileName string) ([]string, error) {
-	content, err := os.ReadFile(fileName)
+	content, err := os.ReadFile(filepath.Clean(fileName))
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +37,7 @@ func appendFiles(odooConfig, filesPath string) error {
 	}
 
 	for _, f := range files {
-		if f.IsDir() || f.Name() == "openerp_serverrc" {
+		if f.IsDir() || f.Name() == "odoorc" {
 			continue
 		}
 		lines2, err := readLines(path.Join(filesPath, f.Name()))
