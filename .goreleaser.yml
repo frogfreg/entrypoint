@@ -18,6 +18,10 @@ builds:
       - amd64
     ignore:
       - goarch: 386
+    ldflags:
+      - -X entrypoint/cmd.Build={{.ShortCommit}} -X entrypoint/cmd.BuildDate={{.Date}}
+    flags:
+      - -trimpath
 checksum:
   name_template: 'checksums.txt'
 snapshot:
