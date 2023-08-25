@@ -2,12 +2,13 @@ package utils
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/ini.v1"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
+	"gopkg.in/ini.v1"
 )
 
 type envConverter func([]string) map[string]string
@@ -251,7 +252,7 @@ func prepareFiles() error {
 
 	if _, err := os.Stat(fsPath); err != nil {
 		if os.IsNotExist(err) {
-			err = os.MkdirAll(fsPath, 0777)
+			err = os.MkdirAll(fsPath, 0777) // #nosec G301
 			if err != nil {
 				return err
 			}

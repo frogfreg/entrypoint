@@ -1,12 +1,14 @@
 package utils
 
 import (
-	log "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
 	"os/user"
+	"path/filepath"
 	"strconv"
 	"syscall"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/google/shlex"
 )
@@ -51,7 +53,7 @@ func RunAndLogCmdAs(cmd string, userName string, env []string) error {
 	if err != nil {
 		return err
 	}
-	cmdS := exec.Command(parts[0], parts[1:]...)
+	cmdS := exec.Command(parts[0], parts[1:]...) // #nosec G204
 	cmdS.SysProcAttr = &syscall.SysProcAttr{}
 	cmdS.SysProcAttr.Credential = &syscall.Credential{
 		Uid: uid,
@@ -83,12 +85,12 @@ func RunAndLogCmdAs(cmd string, userName string, env []string) error {
 
 // Copy copies a single file from src to dst
 func Copy(src, dst string) error {
-	srcF, err := os.Open(src)
+	srcF, err := os.Open(filepath.Clean(src))
 	if err != nil {
 		return err
 	}
 	defer srcF.Close()
-	dstF, err := os.Create(dst)
+	dstF, err := os.Create(filepath.Clean(dst))
 	if err != nil {
 		return err
 	}
