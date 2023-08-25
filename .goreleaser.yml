@@ -1,0 +1,33 @@
+project_name: entrypoint
+release:
+  github:
+    owner: orchestsh
+    name: entrypoint
+before:
+  hooks:
+    - go mod download
+    - go generate ./...
+builds:
+  - main: ./main.go
+    id: "entrypoint"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    ignore:
+      - goarch: 386
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .ProjectName }}-next"
+changelog:
+  sort: asc
+  skip: true
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+source:
+  enabled: false
