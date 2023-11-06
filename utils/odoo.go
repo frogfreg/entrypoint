@@ -101,9 +101,9 @@ func UpdateOdooConfig(config *ini.File) error {
 	if err := config.SaveTo(cfgFile); err != nil {
 		return err
 	}
-	if err := RunAndLogCmdAs("python /home/odoo/getaddons.py /home/odoo/instance/extra_addons", "", nil); err != nil {
-		return err
-	}
+	// if err := RunAndLogCmdAs("python /home/odoo/getaddons.py /home/odoo/instance/extra_addons", "", nil); err != nil {
+	// 	return err
+	// }
 	return nil
 }
 
