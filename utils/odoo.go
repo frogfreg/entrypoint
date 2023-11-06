@@ -237,9 +237,9 @@ func Odoo() error {
 
 func prepareFiles() error {
 
-	if err := Copy("/external_files/openerp_serverrc", GetConfigFile()); err != nil {
-		return err
-	}
+	// if err := Copy("/external_files/openerp_serverrc", GetConfigFile()); err != nil {
+	// 	return err
+	// }
 
 	if err := appendFiles(GetConfigFile(), "/external_files/odoocfg"); err != nil {
 		return err
