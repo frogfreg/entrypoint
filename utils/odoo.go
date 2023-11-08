@@ -52,7 +52,6 @@ func GetInstanceType() (string, error) {
 		return "test", nil
 	}
 	return "", fmt.Errorf("cannot determine the instance type, env vars INSTANCE_TYPE and ODOO_STAGE 'must' match, got: 'INSTANCE_TYPE=%s' and 'ODOO_STAGE=%s'", it, ost)
-
 }
 
 // DefaultConverter receives a slice of strings with all the env vars and returns a mapping with the keys and values
@@ -101,9 +100,6 @@ func UpdateOdooConfig(config *ini.File) error {
 	if err := config.SaveTo(cfgFile); err != nil {
 		return err
 	}
-	// if err := RunAndLogCmdAs("python /home/odoo/getaddons.py /home/odoo/instance/extra_addons", "", nil); err != nil {
-	// 	return err
-	// }
 	return nil
 }
 
@@ -236,11 +232,6 @@ func Odoo() error {
 }
 
 func prepareFiles() error {
-
-	// if err := Copy("/external_files/openerp_serverrc", GetConfigFile()); err != nil {
-	// 	return err
-	// }
-
 	if err := appendFiles(GetConfigFile(), "/external_files/odoocfg"); err != nil {
 		return err
 	}
@@ -252,7 +243,7 @@ func prepareFiles() error {
 
 	if _, err := os.Stat(fsPath); err != nil {
 		if os.IsNotExist(err) {
-			err = os.MkdirAll(fsPath, 0777) // #nosec G301
+			err = os.MkdirAll(fsPath, 0o777) // #nosec G301
 			if err != nil {
 				return err
 			}
